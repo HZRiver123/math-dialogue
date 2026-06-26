@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>数语 · MathDialogue | 穿越时空的数学诗</title>
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.9/katex.min.css">
+  <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+  <style>
+    :root{--bg:#FAF7F2;--bg-soft:#EEF2F0;--primary:#9CAFAA;--accent:#B76E5C;--text:#3B3A38;--card-bg:rgba(255,255,255,0.75);--shadow:0 8px 20px rgba(0,0,0,0.04);--radius:16px}
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;background-color:var(--bg);color:var(--text);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+    a{color:var(--accent);text-decoration:none}
+    .card{background:var(--card-bg);backdrop-filter:blur(12px);border-radius:var(--radius);padding:1.5rem;box-shadow:var(--shadow);margin-bottom:1.2rem}
+    button,.btn{background:var(--primary);border:none;color:#fff;padding:0.7rem 1.4rem;border-radius:2rem;font-size:0.95rem;cursor:pointer;display:inline-flex;align-items:center;gap:0.3rem;font-family:inherit;box-shadow:0 4px 10px rgba(0,0,0,0.05)}
+    button:hover,.btn:hover{background:#8aa09a}
+    button.accent{background:var(--accent)}
+    button.accent:hover{background:#a55d4a}
+    button.small{padding:0.4rem 0.9rem;font-size:0.8rem}
+    button.outline{background:transparent;color:var(--accent);border:1.5px solid var(--accent);box-shadow:none}
+    header{padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(250,247,242,0.85);backdrop-filter:blur(12px);position:sticky;top:0;z-index:10;border-bottom:1px solid rgba(0,0,0,0.03)}
+    .logo{font-size:1.6rem;font-weight:400;color:var(--accent);letter-spacing:2px}
+    nav{display:flex;gap:0.8rem;flex-wrap:wrap}
+    nav a{color:var(--text);font-weight:400;padding:0.3rem 0.6rem;border-radius:1rem;font-size:0.85rem}
+    nav a:hover,nav a.active{background:var(--bg-soft);color:var(--accent)}
+    main{flex:1;padding:1.5rem;max-width:960px;margin:0 auto;width:100%}
+    .page{display:none;animation:fadeIn 0.3s ease}
+    .page.active{display:block}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    .hero{text-align:center;margin:1.5rem 0 2rem}
+    .circle-art{width:100px;height:100px;margin:0 auto 1rem;background:radial-gradient(circle at 30% 30%,rgba(188,143,143,0.2),rgba(156,175,170,0.3));border-radius:50%;display:flex;align-items:center;justify-content:center;animation:breathe 5s infinite alternate}
+    @keyframes breathe{0%{transform:scale(0.97)}100%{transform:scale(1.03)}}
+    .motto{font-style:italic;font-size:1rem;color:#5b5955;margin:0.5rem 0 1rem;min-height:2rem}
+    .cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem}
+    .cold-fact-carousel{position:relative;min-height:180px}
+    .cold-fact-slide{display:none}
+    .cold-fact-slide.active{display:block}
+    .fact-card-detail{background:rgba(238,242,240,0.6);border-radius:var(--radius);padding:1.2rem;display:flex;gap:0.8rem}
+    .fact-icon-large{font-size:2rem;flex-shrink:0}
+    .fact-content h4{margin-bottom:0.3rem;color:var(--accent)}
+    .fact-content .fact-explain{margin-top:0.5rem;font-size:0.85rem;color:#5b5955;border-top:1px dashed rgba(0,0,0,0.08);padding-top:0.5rem}
+    .carousel-controls{display:flex;justify-content:center;gap:0.4rem;margin-top:0.6rem}
+    .carousel-dot{width:8px;height:8px;border-radius:50%;background:#d0d0d0;cursor:pointer}
+    .carousel-dot.active{background:var(--accent);width:20px;border-radius:4px}
+    .ai-teaser-card{background:linear-gradient(135deg,rgba(183,110,92,0.06),rgba(156,175,170,0.1));border:1.5px dashed rgba(183,110,92,0.25);border-radius:var(--radius);padding:1.5rem;margin-bottom:1.5rem;text-align:center}
+    .ai-teaser-card .teaser-icon{font-size:2rem;margin-bottom:0.3rem}
+    .ai-teaser-card .teaser-text{font-size:1rem;color:var(--text);line-height:1.6}
+    .ai-teaser-card .teaser-sub{font-size:0.85rem;color:#8c8a86;margin-bottom:0.8rem}
+    .ai-teaser-card .teaser-btn{background:var(--accent);color:#fff;border:none;padding:0.6rem 1.5rem;border-radius:2rem;font-size:0.9rem;cursor:pointer}
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+    .gallery-card canvas{width:100%;height:200px;border-radius:12px;background:#f8f6f2}
+    .gallery-explain{display:none;margin-top:0.6rem;padding:0.7rem;background:rgba(156,175,170,0.08);border-radius:10px;font-size:0.85rem;color:#5b5955}
+    .gallery-explain.show{display:block}
+    .mathematician-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+    .mathematician-card{background:var(--card-bg);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);display:flex;gap:0.8rem}
+    .math-avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,rgba(156,175,170,0.4),rgba(183,110,92,0.3));display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
+    .math-info h4{font-size:1rem}
+    .math-info .math-era{font-size:0.8rem;color:var(--accent)}
+    .math-info .math-bio{font-size:0.85rem;color:#5b5955}
+    .math-info .math-contrib{font-size:0.85rem}
+    .chat-jump-btn{margin-top:0.6rem;background:var(--accent);color:#fff;border:none;padding:0.4rem 0.8rem;border-radius:2rem;font-size:0.8rem;cursor:pointer}
+    .book-card{background:var(--card-bg);border-radius:var(--radius);padding:1.2rem;box-shadow:var(--shadow);border-left:3px solid var(--primary)}
+    .book-card .book-icon{font-size:1.5rem}
+    .book-card h4{font-size:0.9rem;margin:0.3rem 0}
+    .book-card .book-author{font-size:0.8rem;color:var(--accent)}
+    .book-card .book-desc{font-size:0.8rem;color:#5b5955}
+    .book-card .book-tag{display:inline-block;background:rgba(156,175,170,0.15);color:#6b8a82;padding:0.2rem 0.5rem;border-radius:1rem;font-size:0.7rem}
+    .chat-container{display:flex;flex-direction:column;background:rgba(255,255,255,0.6);border-radius:var(--radius);padding:1rem;height:75vh;min-height:400px}
+    .chat-header{display:flex;align-items:center;gap:0.5rem;padding-bottom:0.6rem;border-bottom:1px solid rgba(0,0,0,0.05);flex-wrap:wrap}
+    .char-avatar{width:38px;height:38px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:1.2rem}
+    .chat-messages{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:0.7rem;padding:0.5rem 0}
+    .message{display:flex;align-items:flex-end;gap:0.3rem;max-width:88%}
+    .message.user{align-self:flex-end;flex-direction:row-reverse}
+    .message.assistant{align-self:flex-start}
+    .bubble{background:#fff;padding:0.6rem 0.9rem;border-radius:1.2rem;font-size:0.9rem}
+    .message.user .bubble{background:var(--primary);color:white}
+    .typing-indicator{display:flex;gap:4px;padding:0.5rem 1rem}
+    .typing-indicator span{width:8px;height:8px;background:#ccc;border-radius:50%;animation:typing 1.4s infinite}
+    .typing-indicator span:nth-child(2){animation-delay:0.2s}
+    .typing-indicator span:nth-child(3){animation-delay:0.4s}
+    @keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+    .chat-input-area{display:flex;margin-top:0.6rem;gap:0.4rem}
+    .chat-input-area input{flex:1;padding:0.6rem 0.9rem;border:1px solid rgba(0,0,0,0.08);border-radius:2rem;font-size:0.9rem}
+    .suggestions{display:flex;flex-wrap:wrap;gap:0.3rem;margin:0.5rem 0}
+    .suggestions button{background:#f0f3f2;color:var(--text);font-size:0.75rem;padding:0.3rem 0.7rem}
+    select{padding:0.3rem;border-radius:1rem;border:1px solid #ccc;font-size:0.8rem}
+    .timeline-scroll{display:flex;overflow-x:auto;gap:0.8rem;padding:1rem 0}
+    .timeline-item{min-width:160px;background:var(--card-bg);border-radius:14px;padding:0.8rem;text-align:center;box-shadow:var(--shadow);cursor:pointer}
+    .timeline-year{font-weight:bold;color:var(--accent);font-size:0.85rem}
+    .timeline-detail{display:none;background:rgba(255,255,255,0.9);border-radius:var(--radius);padding:1.2rem;margin-top:0.8rem}
+    .timeline-detail.show{display:block}
+    .section-title{font-size:1.2rem;font-weight:400;margin-bottom:1rem;color:var(--accent)}
+    footer{text-align:center;padding:1.2rem;font-size:0.8rem;color:#8c8a86}
+    @media (max-width:640px){header{flex-direction:column;gap:0.4rem}nav{gap:0.3rem}.chat-container{height:80vh}.mathematician-card{flex-direction:column;align-items:center;text-align:center}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">数语</div>
+    <nav>
+      <a href="#" class="nav-link active" data-page="home">数之庭</a>
+      <a href="#" class="nav-link" data-page="chat">数语阁</a>
+      <a href="#" class="nav-link" data-page="timeline">数河长卷</a>
+      <a href="#" class="nav-link" data-page="gallery">数形画廊</a>
+      <a href="#" class="nav-link" data-page="material">数哲长卷</a>
+    </nav>
+  </header>
+  <main>
+    <section id="home" class="page active">
+      <div class="hero">
+        <div class="circle-art"><svg viewBox="0 0 100 100" width="60" height="60"><polygon points="50,10 80,35 80,70 50,90 20,70 20,35" fill="none" stroke="#B76E5C" stroke-width="2"/></svg></div>
+        <p class="motto" id="daily-motto">数学是上帝用来书写宇宙的语言。——伽利略</p>
+        <button class="accent" onclick="navigateTo('chat')">✨ 与先哲对话</button>
+      </div>
+      <div class="cards-grid">
+        <div class="card" onclick="navigateTo('chat')"><h3>💬 与先哲对话</h3><p>召唤8位古今数学先哲，聆听他们亲口讲述数学的故事。</p></div>
+        <div class="card" onclick="navigateTo('timeline')"><h3>⏳ 数学时间轴</h3><p>从巴比伦泥板到AI时代，16个关键节点漫步三千年。</p></div>
+        <div class="card" onclick="navigateTo('gallery')"><h3>🎨 数形画廊</h3><p>曼德博集合、科赫雪花……6幅动态数学图鉴+原理详解。</p></div>
+        <div class="card" onclick="navigateTo('material')"><h3>📚 数哲长卷</h3><p>12位数学家图鉴+经典著作推荐，一站式数学人文素材库。</p></div>
+      </div>
+      <div class="card" style="margin-top:1.5rem;"><h3 style="margin-bottom:0.8rem;">💡 数学冷知识</h3><div class="cold-fact-carousel" id="cold-fact-carousel"></div><div class="carousel-controls" id="carousel-dots"></div></div>
+    </section>
+    <section id="chat" class="page">
+      <div class="chat-container">
+        <div class="chat-header">
+          <div class="char-avatar" id="char-avatar">π</div>
+          <div class="char-info"><h3 id="char-name">数语者</h3><span id="char-era">贯通古今的数学精灵</span></div>
+          <select id="char-select" style="margin-left:auto;"><option value="muse">数语者</option><option value="pythagoras">毕达哥拉斯</option><option value="archimedes">阿基米德</option><option value="euclid">欧几里得</option><option value="liuhui">刘徽</option><option value="khwarizmi">花拉子米</option><option value="noether">埃米·诺特</option><option value="carroll">刘易斯·卡罗尔</option><option value="rabbit">斐波那契的兔子</option></select>
+        </div>
+        <div class="chat-messages" id="chat-messages"><div class="message assistant"><div class="bubble">你好，我是数语者。想聊聊哪段数学故事？</div></div></div>
+        <div class="suggestions"><button onclick="sendQuick('什么是虚数？')">什么是虚数？</button><button onclick="sendQuick('无穷小量的故事')">无穷小量的故事</button><button onclick="sendQuick('数学与美有什么关联？')">数学与美</button><button onclick="sendQuick('零的发现意味着什么？')">零的哲学</button><button onclick="sendQuick('讲讲哥德尔不完备定理')">哥德尔不完备定理</button></div>
+        <div class="chat-input-area"><input type="text" id="user-input" placeholder="输入你想了解的数学文化..." onkeydown="if(event.key==='Enter')sendMessage()"><button id="send-btn" onclick="sendMessage()">发送</button></div>
+      </div>
+    </section>
+    <section id="timeline" class="page">
+      <h2 class="section-title">⏳ 数河长卷</h2><div class="timeline-scroll" id="timeline-container"></div>
+      <div class="timeline-detail" id="timeline-detail"><h3 id="detail-title"></h3><p id="detail-year" style="color:var(--accent);font-weight:bold;"></p><p id="detail-desc" style="margin-top:0.5rem;"></p><p id="detail-story" style="margin-top:0.8rem;font-style:italic;color:#5b5955;"></p><button class="btn small" onclick="document.getElementById('timeline-detail').classList.remove('show')">关闭</button></div>
+    </section>
+    <section id="gallery" class="page">
+      <h2 class="section-title">🎨 数形画廊</h2>
+      <div class="ai-teaser-card"><div class="teaser-icon">🔮</div><p class="teaser-text">画布之上，分形与螺旋已为你绽放——但数学的风景远不止这几幅图景。</p><p class="teaser-sub">从四维超立方体到混沌理论的蝴蝶效应……数语者已备好更多眼睛看不见的几何诗篇。</p><button class="teaser-btn" onclick="jumpToChatFromGallery()">✨ 向数语者探寻更多数学之美</button></div>
+      <div class="gallery-grid" id="gallery-grid"></div>
+    </section>
+    <section id="material" class="page">
+      <h2 class="section-title">👨‍🔬 数哲长卷 · 数学家的群星</h2>
+      <div class="ai-teaser-card"><div class="teaser-icon">💫</div><p class="teaser-text">长卷之上，十二位先哲的星辉已铺开——然数学的银河远不止于此。</p><p class="teaser-sub">从伽罗瓦的遗书到拉马努金的梦中公式……数语者已备好万千故事，只待你开口相询。</p><button class="teaser-btn" onclick="jumpToChatFromSages()">✨ 向数语者探寻更多数学家</button></div>
+      <div class="mathematician-grid" id="mathematician-grid"></div>
+      <h2 class="section-title" style="margin-top:2rem;">📖 数典流光</h2><div class="cards-grid" id="books-grid"></div>
+    </section>
+  </main>
+  <footer><p>数语 · MathDialogue | 数学文化科普智能体 | 课程作业项目</p></footer>
+  <script>
+    // ==========================================
+    // 🔑 把 sk-xxx 替换成你的 DeepSeek API Key
+    // ==========================================
+    var DEEPSEEK_API_KEY = 'sk-0435e5bd64314bb096dd2669bd04d4ca';
+
+    var pages=document.querySelectorAll('.page'),navLinks=document.querySelectorAll('.nav-link');
+    function navigateTo(p){
+      pages.forEach(function(pg){pg.classList.remove('active')});
+      document.getElementById(p).classList.add('active');
+      navLinks.forEach(function(l){l.classList.remove('active');if(l.dataset.page===p)l.classList.add('active')});
+      if(p==='gallery')renderGallery();
+      if(p==='timeline')renderTimeline();
+      if(p==='material'){renderMathematicians();renderBooks();}
+    }
+    navLinks.forEach(function(l){l.addEventListener('click',function(e){e.preventDefault();navigateTo(l.dataset.page)})});
+    var mottos=["数学是上帝用来书写宇宙的语言。——伽利略","哪里有数，哪里就有美。——普罗克洛斯","无穷！没有其他问题如此深刻地触动人类心灵。——希尔伯特","数学的本质在于它的自由。——康托尔","纯数学是逻辑思想的诗。——爱因斯坦","数学是科学的女王。——高斯","万物皆数。——毕达哥拉斯","几何学中没有王者之路。——欧几里得","给我一个支点，我能撬动地球。——阿基米德","数之妙用，穷纤入微。——刘徽","分形是自然界真正的几何学。——曼德博"];
+    setInterval(function(){document.getElementById('daily-motto').textContent=mottos[Math.floor(Math.random()*mottos.length)]},8000);
+    var coldFacts=[{icon:'🐝',title:'蜜蜂懂几何',brief:'蜂巢六边形是自然界最高效排列。',explain:'六边形可无缝拼接，相同面积下所需蜂蜡最少。达尔文称蜂巢是"最节省材料的杰作"。'},{icon:'🎲',title:'骰子对面和永远是7',brief:'1对6、2对5、3对4。',explain:'这种设计使质量分布均匀，投掷更随机。古埃及骰子已采用此排列。'},{icon:'📐',title:'金字塔隐藏π',brief:'胡夫金字塔周长÷(2×高度)≈3.1416。',explain:'精确到小数点后四位，学者至今争论是有意还是巧合。'},{icon:'🎵',title:'音乐即数学',brief:'弦长比2:1=八度，3:2=五度，4:3=四度。',explain:'毕达哥拉斯首次用数学解释美，音乐理论至今建立于频率比之上。'},{icon:'☕',title:'甜甜圈=咖啡杯',brief:'拓扑学中它们都是"亏格1"的曲面。',explain:'通过连续变形可互变，都有1个洞。球体和立方体是亏格0。'},{icon:'🌻',title:'向日葵的斐波那契数',brief:'螺旋线数目几乎永远是34和55。',explain:'这种排列能最密集填充种子。同样出现在松果、菠萝和罗马花椰菜上。'},{icon:'🃏',title:'洗牌7次才随机',brief:'52张牌需riffle洗7次才达随机状态。',explain:'哈佛数学家Diaconis用群论证明：少于7次仍有明显模式。'},{icon:'⚽',title:'足球的数学',brief:'12个五边形+20个六边形=截角二十面体。',explain:'欧拉公式V−E+F=2精确描述。C60分子正是此形状，获诺贝尔奖。'}];
+    var cf=0,cfTimer;
+    function renderColdFacts(){
+      var c=document.getElementById('cold-fact-carousel'),d=document.getElementById('carousel-dots');
+      c.innerHTML='';d.innerHTML='';
+      for(var i=0;i<coldFacts.length;i++){var f=coldFacts[i];c.innerHTML+='<div class="cold-fact-slide'+(i===0?' active':'')+'" data-i="'+i+'"><div class="fact-card-detail"><div class="fact-icon-large">'+f.icon+'</div><div class="fact-content"><h4>'+f.title+'</h4><p>'+f.brief+'</p><p class="fact-explain">📖 '+f.explain+'</p></div></div></div>';d.innerHTML+='<div class="carousel-dot'+(i===0?' active':'')+'" onclick="goToFact('+i+')"></div>'}
+    }
+    window.goToFact=function(i){
+      document.querySelectorAll('.cold-fact-slide').forEach(function(s){s.classList.remove('active')});
+      document.querySelectorAll('.carousel-dot').forEach(function(d){d.classList.remove('active')});
+      document.querySelector('.cold-fact-slide[data-i="'+i+'"]').classList.add('active');
+      document.querySelectorAll('.carousel-dot')[i].classList.add('active');
+      cf=i;clearInterval(cfTimer);cfTimer=setInterval(nextFact,6000);
+    };
+    function nextFact(){cf=(cf+1)%coldFacts.length;goToFact(cf)}
+    renderColdFacts();cfTimer=setInterval(nextFact,6000);
+    var charSelect=document.getElementById('char-select'),charName=document.getElementById('char-name'),charEra=document.getElementById('char-era'),charAvatar=document.getElementById('char-avatar'),chatMessages=document.getElementById('chat-messages'),sendBtn=document.getElementById('send-btn');
+    var charInfo={muse:{name:'数语者',era:'贯通古今',avatar:'π'},pythagoras:{name:'毕达哥拉斯',era:'古希腊',avatar:'Π'},archimedes:{name:'阿基米德',era:'古希腊',avatar:'Α'},euclid:{name:'欧几里得',era:'古希腊',avatar:'Ε'},liuhui:{name:'刘徽',era:'魏晋',avatar:'徽'},khwarizmi:{name:'花拉子米',era:'波斯',avatar:'خ'},noether:{name:'埃米·诺特',era:'德国',avatar:'N'},carroll:{name:'刘易斯·卡罗尔',era:'英国',avatar:'♤'},rabbit:{name:'斐波那契的兔子',era:'童话',avatar:'🐇'}};
+    var greetings={muse:'你好，我是数语者。想聊聊哪段数学故事？',pythagoras:'万物皆数！欢迎来到我的学派。',archimedes:'Eureka！欢迎来到我的思绪之海！',euclid:'几何学中没有王者之路，但我愿做你的向导。',liuhui:'数之妙用，穷纤入微。鄙人刘徽，愿与君共探九章之秘。',khwarizmi:'Salam！我是花拉子米，代数的奠基者。',noether:'对称性指引着守恒，也指引着思想。',carroll:'你准备好进入数学的兔子洞了吗？',rabbit:'蹦蹦跳！1,1,2,3,5,8……🐇'};
+    var convHistory=[];
+    charSelect.addEventListener('change',function(e){var c=charInfo[e.target.value];charName.textContent=c.name;charEra.textContent=c.era;charAvatar.textContent=c.avatar;convHistory=[];addMsg('assistant',greetings[e.target.value]||greetings.muse)});
+    function addMsg(role,text){var d=document.createElement('div');d.className='message '+role;d.innerHTML='<div class="bubble">'+text+'</div>';chatMessages.appendChild(d);chatMessages.scrollTop=chatMessages.scrollHeight;try{renderMathInElement(d)}catch(e){}}
+    function showTyping(){var d=document.createElement('div');d.className='message assistant';d.id='typing';d.innerHTML='<div class="bubble"><div class="typing-indicator"><span></span><span></span><span></span></div></div>';chatMessages.appendChild(d);chatMessages.scrollTop=chatMessages.scrollHeight}
+    function hideTyping(){var t=document.getElementById('typing');if(t)t.remove()}
+    async function callAI(msg){
+      var sysPrompt='你是"数语者"数学文化智能体，讲述数学背后的故事、思想、哲学与美。不要解题计算，引导向历史背景和美学关联。语气温暖诗意，200字以内。';
+      var msgs=[{role:"system",content:sysPrompt}].concat(convHistory).concat([{role:"user",content:msg}]);
+      try{
+        var res=await fetch('https://api.deepseek.com/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+DEEPSEEK_API_KEY},body:JSON.stringify({model:'deepseek-chat',messages:msgs,temperature:0.8,max_tokens:500})});
+        if(!res.ok)throw new Error('API失败');
+        var data=await res.json();
+        var reply=data.choices[0].message.content;
+        convHistory.push({role:"user",content:msg});convHistory.push({role:"assistant",content:reply});
+        if(convHistory.length>16)convHistory=convHistory.slice(-16);
+        return reply;
+      }catch(e){return '（数语者暂时迷失在数学的星空里了……请稍后再试）'}
+    }
+    async function sendMessage(){var input=document.getElementById('user-input'),text=input.value.trim();if(!text)return;sendBtn.disabled=true;sendBtn.textContent='...';addMsg('user',text);input.value='';showTyping();var reply=await callAI(text);hideTyping();addMsg('assistant',reply);sendBtn.disabled=false;sendBtn.textContent='发送'}
+    function sendQuick(t){document.getElementById('user-input').value=t;sendMessage()}
+    window.jumpToChatFromGallery=function(){navigateTo('chat');setTimeout(function(){charSelect.value='muse';charSelect.dispatchEvent(new Event('change'));setTimeout(function(){document.getElementById('user-input').value='数语者，除了分形和螺旋，数学中还有哪些令人惊叹的视觉之美？';sendMessage()},400)},300)};
+    window.jumpToChatFromSages=function(){navigateTo('chat');setTimeout(function(){charSelect.value='muse';charSelect.dispatchEvent(new Event('change'));setTimeout(function(){document.getElementById('user-input').value='数语者，除了图鉴上的数学家，还有哪些数学家的故事值得了解？请给我讲讲其中一位。';sendMessage()},400)},300)};
+    var timelineData=[{year:'约公元前1800',title:'巴比伦泥板',desc:'二次方程与勾股数。',story:'巴比伦人早于毕达哥拉斯一千年掌握勾股数。'},{year:'约公元前530',title:'毕达哥拉斯学派',desc:'"万物皆数"。',story:'将数学与音乐、宇宙秩序联系，对无理数感到恐惧。'},{year:'约公元前300',title:'《几何原本》',desc:'公理化巅峰。',story:'托勒密王问捷径，答："几何学中没有王者之路。"'},{year:'约公元263',title:'刘徽割圆术',desc:'极限思想萌芽。',story:'"割之弥细，所失弥少，以至于不可割，则与圆周合体。"'},{year:'约公元820',title:'花拉子米《代数学》',desc:'"Algebra"来源。',story:'成为欧洲大学五百年教材。'},{year:'1637',title:'笛卡尔解析几何',desc:'代数与几何统一。',story:'传说看苍蝇飞舞时想到坐标系。'},{year:'1687',title:'牛顿《原理》',desc:'微积分描述宇宙。',story:'与莱布尼茨的发明权之争持续数十年。'},{year:'1736',title:'欧拉七桥问题',desc:'创立图论。',story:'证明不可能一次走完七座桥，开创拓扑学。'},{year:'1820s',title:'非欧几何诞生',desc:'平行公设可改变。',story:'高斯最早发现却不敢发表。'},{year:'1854',title:'黎曼几何',desc:'任意维度几何。',story:'60年后爱因斯坦用于描述弯曲时空。'},{year:'1874',title:'康托尔集合论',desc:'无穷可比较大小。',story:'遭激烈反对，晚年崩溃，今成数学基础。'},{year:'1931',title:'哥德尔不完备定理',desc:'任何系统都有无法证明的命题。',story:'24岁摧毁希尔伯特完美基础的梦想。'},{year:'1975',title:'曼德博分形',desc:'海岸线、云朵的分形。',story:'"英国海岸线多长？"取决于尺子。'},{year:'21世纪',title:'AI与数学',desc:'机器学习证定理。',story:'AlphaTensor突破50年未解难题。'}];
+    function renderTimeline(){var c=document.getElementById('timeline-container');c.innerHTML='';for(var i=0;i<timelineData.length;i++){var t=timelineData[i];c.innerHTML+='<div class="timeline-item" onclick="showDetail('+i+')"><div class="timeline-year">'+t.year+'</div><h4>'+t.title+'</h4></div>'}}
+    window.showDetail=function(i){var t=timelineData[i];document.getElementById('detail-title').textContent=t.title;document.getElementById('detail-year').textContent=t.year;document.getElementById('detail-desc').textContent=t.desc;document.getElementById('detail-story').textContent='📖 '+t.story;document.getElementById('timeline-detail').classList.add('show')};
+    renderTimeline();
+    function drawMandelbrot(c){var ctx=c.getContext('2d'),w=c.width=c.offsetWidth,h=c.height=c.offsetHeight,img=ctx.createImageData(w,h);for(var px=0;px<w;px++)for(var py=0;py<h;py++){var x0=(px-w/2)*3.5/w,y0=(py-h/2)*3.5/h,x=0,y=0,iter=0;while(x*x+y*y<=4&&iter<80){var xt=x*x-y*y+x0;y=2*x*y+y0;x=xt;iter++}var idx=(py*w+px)*4,cl=iter===80?0:iter*3;img.data[idx]=180-cl*0.5;img.data[idx+1]=140-cl*0.3;img.data[idx+2]=130+cl*0.4;img.data[idx+3]=255}ctx.putImageData(img,0,0)}
+    function drawKoch(c){var ctx=c.getContext('2d'),w=c.width=c.offsetWidth,h=c.height=c.offsetHeight;ctx.fillStyle='#f8f6f2';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#B76E5C';ctx.lineWidth=1.2;var s=Math.min(w,h)*0.65,p1={x:w/2-s/2,y:h/2+s/3},p2={x:w/2+s/2,y:h/2+s/3},p3={x:w/2,y:h/2-s/2.5};function k(a,b,d){if(d===0){ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();return}var dx=b.x-a.x,dy=b.y-a.y,q1={x:a.x+dx/3,y:a.y+dy/3},q3={x:a.x+2*dx/3,y:a.y+2*dy/3},ang=-Math.PI/3,q2={x:q1.x+(q3.x-q1.x)*Math.cos(ang)-(q3.y-q1.y)*Math.sin(ang),y:q1.y+(q3.x-q1.x)*Math.sin(ang)+(q3.y-q1.y)*Math.cos(ang)};k(a,q1,d-1);k(q1,q2,d-1);k(q2,q3,d-1);k(q3,b,d-1)}k(p1,p2,4);k(p2,p3,4);k(p3,p1,4)}
+    function drawSierpinski(c){var ctx=c.getContext('2d'),w=c.width=c.offsetWidth,h=c.height=c.offsetHeight;ctx.fillStyle='#f8f6f2';ctx.fillRect(0,0,w,h);ctx.fillStyle='#9CAFAA';function tri(x,y,s,d){if(d===0){ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+s,y);ctx.lineTo(x+s/2,y-s*Math.sqrt(3)/2);ctx.fill();return}tri(x,y,s/2,d-1);tri(x+s/2,y,s/2,d-1);tri(x+s/4,y-s*Math.sqrt(3)/4,s/2,d-1)}tri(w/2-Math.min(w,h)*0.4,h/2+Math.min(w,h)*0.3,Math.min(w,h)*0.8,5)}
+    function drawGoldenSpiral(c){var ctx=c.getContext('2d'),w=c.width=c.offsetWidth,h=c.height=c.offsetHeight;ctx.fillStyle='#f8f6f2';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#B76E5C';ctx.lineWidth=2;var size=Math.min(w,h)*0.75,x=w/2-size/2.2,y=h/2-size/3,side=size;for(var i=0;i<10;i++){ctx.strokeRect(x,y,side,side);var ns=side/1.618;if(i%4===0){x+=side;side=ns}else if(i%4===1){y+=side;side=ns}else if(i%4===2){x-=ns;side=ns}else{y-=ns;side=ns}}}
+    function drawCardioid(c){var ctx=c.getContext('2d'),w=c.width=c.offsetWidth,h=c.height=c.offsetHeight;ctx.fillStyle='#f8f6f2';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#B76E5C';ctx.lineWidth=2;var cx=w/2,cy=h/2,r=Math.min(w,h)*0.35;ctx.beginPath();for(var t=0;t<Math.PI*2;t+=0.02){var x=cx+r*(1-Math.cos(t))*Math.cos(t),y=cy+r*(1-Math.cos(t))*Math.sin(t);t===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke()}
+    function drawPythagorasTree(c){var ctx=c.getContext('2d'),w=c.width=c.offsetWidth,h=c.height=c.offsetHeight;ctx.fillStyle='#f8f6f2';ctx.fillRect(0,0,w,h);ctx.fillStyle='rgba(156,175,170,0.6)';ctx.strokeStyle='#8a9e93';ctx.lineWidth=1;function sq(x,y,s,angle,depth){if(depth>10||s<4)return;ctx.save();ctx.translate(x,y);ctx.rotate(angle);ctx.fillRect(0,-s,s,s);ctx.strokeRect(0,-s,s,s);var ns=s*Math.cos(Math.PI/4);sq(0,-s,ns,Math.PI/4,depth+1);sq(s,-s,ns,-Math.PI/4,depth+1);ctx.restore()}sq(w/2-25,h-20,50,0,0)}
+    function renderGallery(){var grid=document.getElementById('gallery-grid');if(grid.children.length>0)return;var cards=[{title:'曼德博集合',desc:'z→z²+c的魔法',draw:drawMandelbrot,explain:'<b>zₙ₊₁=zₙ²+c</b><br><br>复平面上反复迭代，简单规则产生无穷复杂。<b>混沌与秩序的交界。</b>'},{title:'科赫雪花',desc:'有限面积，无限边界',draw:drawKoch,explain:'<b>各边中间1/3替换为三角形</b><br><br>面积有限但边界长度无限。<b>有限中蕴含无限。</b>'},{title:'谢尔宾斯基三角',desc:'自相似之美',draw:drawSierpinski,explain:'<b>每次去掉中心小三角形</b><br><br>面积趋零含无限点，<b>完全自相似。</b>'},{title:'黄金矩形螺旋',desc:'1.618的生长密码',draw:drawGoldenSpiral,explain:'<b>φ=(1+√5)/2≈1.618</b><br><br>出现于帕特农神庙、鹦鹉螺壳。'},{title:'心脏线',desc:'r=1−cosθ的浪漫',draw:drawCardioid,explain:'<b>r=a(1−cosθ)</b><br><br>恰似爱心，也是曼德博集合的主体形状。'},{title:'毕达哥拉斯树',desc:'定理长出的几何森林',draw:drawPythagorasTree,explain:'<b>a²+b²=c²</b><br><br>勾股定理的视觉化分形。'}];for(var i=0;i<cards.length;i++){var card=cards[i],div=document.createElement('div');div.className='gallery-card card';div.innerHTML='<h4>'+card.title+'</h4><canvas></canvas><p>'+card.desc+'</p><button class="btn small outline" onclick="toggleExplain(this)">📖 查看原理</button><div class="gallery-explain">'+card.explain+'</div>';grid.appendChild(div);(function(card,canvas){setTimeout(function(){card.draw(canvas)},100)})(card,div.querySelector('canvas'))}}
+    window.toggleExplain=function(btn){var d=btn.nextElementSibling;if(d.classList.contains('show')){d.classList.remove('show');btn.textContent='📖 查看原理'}else{d.classList.add('show');btn.textContent='🔼 收起'}};
+    var mathematicians=[{avatar:'Π',name:'毕达哥拉斯',era:'约公元前570—前495·古希腊',bio:'将数学提升为哲学信仰，万物皆数。',contrib:'<strong>贡献：</strong>证明勾股定理；发现音程与整数比；提出地圆说；开创数论。',chatPrompt:'毕达哥拉斯先生，万物皆数的真正含义是什么？'},{avatar:'Ε',name:'欧几里得',era:'约公元前325—前265·古希腊',bio:'几何学之父，几何学中没有王者之路。',contrib:'<strong>贡献：</strong>《几何原本》，5条公设推导465个命题。',chatPrompt:'欧几里得先生，为什么说几何学中没有王者之路？'},{avatar:'Α',name:'阿基米德',era:'约公元前287—前212·古希腊',bio:'古代最伟大数学家，临终说不要碰坏我的圆。',contrib:'<strong>贡献：</strong>精确计算圆周率；发现浮力定律和杠杆原理。',chatPrompt:'阿基米德先生，您在浴缸发现浮力定律那刻是怎样的感受？'},{avatar:'徽',name:'刘徽',era:'约公元225—295·中国魏晋',bio:'出身寒门自学成才，为《九章算术》作注。',contrib:'<strong>贡献：</strong>割圆术计算圆周率到3.1416；牟合方盖。',chatPrompt:'刘徽先生，您的割圆术如何一步步逼近圆周率？'},{avatar:'خ',name:'花拉子米',era:'约公元780—850·波斯',bio:'名字演变成算法，著作标题演变成代数。',contrib:'<strong>贡献：</strong>《代数学》系统解方程；将印度十进制传入欧洲。',chatPrompt:'花拉子米先生，代数这个词如何从您的著作中诞生？'},{avatar:'🐇',name:'斐波那契',era:'约1170—1250·意大利',bio:'将印度-阿拉伯数字体系带回欧洲。',contrib:'<strong>贡献：</strong>《计算之书》引入十进制；斐波那契数列。',chatPrompt:'斐波那契先生，您怎么发现那个神奇兔子数列的？'},{avatar:'📐',name:'笛卡尔',era:'1596—1650·法国',bio:'我思故我在，也是解析几何创始人。',contrib:'<strong>贡献：</strong>创立解析几何统一代数与几何；发明直角坐标系。',chatPrompt:'请你扮演笛卡尔来回答：坐标系真是看苍蝇时想到的吗？'},{avatar:'∑',name:'欧拉',era:'1707—1783·瑞士',bio:'史上最高产数学家，双目失明后仍高产。',contrib:'<strong>贡献：</strong>图论；e^(iπ)+1=0；引入f(x)；多个领域奠基人。',chatPrompt:'请你扮演欧拉来回答：e^(iπ)+1=0为何被称作最美公式？'},{avatar:'G',name:'高斯',era:'1777—1855·德国',bio:'数学王子，7岁瞬间算出1到100的和。',contrib:'<strong>贡献：</strong>代数基本定理；最小二乘法；《算术研究》。',chatPrompt:'请你扮演高斯来回答：7岁发现等差数列求和是怎样的故事？'},{avatar:'∞',name:'康托尔',era:'1845—1918·德国',bio:'集合论创始人，无穷也有大小。',contrib:'<strong>贡献：</strong>创立集合论；对角线证明；连续统假设。',chatPrompt:'请你扮演康托尔来回答：有些无穷比另一些无穷更大是什么意思？'},{avatar:'N',name:'埃米·诺特',era:'1882—1935·德国',bio:'爱因斯坦称最伟大女数学家，长期无薪授课。',contrib:'<strong>贡献：</strong>诺特定理——对称性对应守恒定律。',chatPrompt:'诺特女士，请讲对称性与守恒律的深刻联系？'},{avatar:'♤',name:'刘易斯·卡罗尔',era:'1832—1898·英国',bio:'牛津数学讲师，爱丽丝梦游仙境作者。',contrib:'<strong>贡献：</strong>《爱丽丝梦游仙境》充满数学隐喻和逻辑悖论。',chatPrompt:'卡罗尔先生，《爱丽丝梦游仙境》隐藏了哪些数学秘密？'}];
+    function renderMathematicians(){var grid=document.getElementById('mathematician-grid');if(grid.children.length>0)return;for(var i=0;i<mathematicians.length;i++){var m=mathematicians[i],div=document.createElement('div');div.className='mathematician-card';div.innerHTML='<div class="math-avatar">'+m.avatar+'</div><div class="math-info"><h4>'+m.name+'</h4><p class="math-era">'+m.era+'</p><p class="math-bio">'+m.bio+'</p><p class="math-contrib">'+m.contrib+'</p><button class="chat-jump-btn" data-name="'+m.name+'" data-prompt="'+m.chatPrompt.replace(/"/g,'&quot;')+'">💬 与'+m.name+'对话</button></div>';grid.appendChild(div)}grid.onclick=function(e){var btn=e.target.closest('.chat-jump-btn');if(!btn)return;var name=btn.getAttribute('data-name'),prompt=btn.getAttribute('data-prompt');jumpToMath(name,prompt)}}
+    window.jumpToMath=function(name,promptText){navigateTo('chat');var charMap={'毕达哥拉斯':'pythagoras','欧几里得':'euclid','阿基米德':'archimedes','刘徽':'liuhui','花拉子米':'khwarizmi','斐波那契':'rabbit','埃米·诺特':'noether','刘易斯·卡罗尔':'carroll','笛卡尔':'muse','欧拉':'muse','高斯':'muse','康托尔':'muse'};var charId=charMap[name]||'muse';setTimeout(function(){charSelect.value=charId;charSelect.dispatchEvent(new Event('change'));setTimeout(function(){document.getElementById('user-input').value=promptText;sendMessage()},400)},300)};
+    var books=[{icon:'📐',title:'《几何原本》',author:'欧几里得',desc:'公理化数学开山之作。',tag:'必读经典'},{icon:'🔢',title:'《什么是数学》',author:'柯朗',desc:'数学科普的圣经。',tag:'科普入门'},{icon:'🎨',title:'《数学之美》',author:'吴军',desc:'数学在科技中的优雅应用。',tag:'应用数学'},{icon:'📖',title:'《费马大定理》',author:'西蒙·辛格',desc:'358年难题被攻克的故事。',tag:'数学史话'},{icon:'🌿',title:'《分形：自然界的几何学》',author:'曼德博',desc:'分形理论创始人亲述。',tag:'几何之美'},{icon:'🎬',title:'《数学的故事》',author:'BBC',desc:'从古埃及到现代的旅程。',tag:'纪录片'},{icon:'🎬',title:'《维度：数学漫步》',author:'Jos Leys',desc:'四维空间和分形宇宙。',tag:'纪录片'},{icon:'📚',title:'《数学简史》',author:'斯特洛伊克',desc:'数学随文明的演进。',tag:'通史读物'},{icon:'🧩',title:'《不可思议的数学》',author:'伊恩·斯图尔特',desc:'日常中的隐藏数学规律。',tag:'趣味数学'},{icon:'🎬',title:'《美丽心灵》',author:'朗·霍华德',desc:'纳什传记，天才与精神疾病。',tag:'电影'},{icon:'📖',title:'《哥德尔、埃舍尔、巴赫》',author:'霍夫施塔特',desc:'数学、艺术、音乐的奇书。',tag:'跨界经典'},{icon:'🎬',title:'《密码破译者：图灵》',author:'BBC',desc:'图灵破解恩尼格玛的传奇。',tag:'纪录片'}];
+    function renderBooks(){var grid=document.getElementById('books-grid');if(grid.children.length>0)return;for(var i=0;i<books.length;i++){var b=books[i],div=document.createElement('div');div.className='book-card';div.innerHTML='<div class="book-icon">'+b.icon+'</div><h4>'+b.title+'</h4><p class="book-author">'+b.author+'</p><p class="book-desc">'+b.desc+'</p><span class="book-tag">'+b.tag+'</span>';grid.appendChild(div)}}
+  </script>
+</body>
+</html>
